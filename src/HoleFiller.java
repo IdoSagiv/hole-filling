@@ -60,8 +60,8 @@ public class HoleFiller {
     private Pair<HashSet<Point>, HashSet<Point>> findHoleAndBoundary(Mat I) {
         HashSet<Point> hole = new HashSet<>();
         HashSet<Point> boundary = new HashSet<>();
-        for (int i = 0; i < I.size(0); i++) {
-            for (int j = 0; j < I.size(1); j++) {
+        for (int i = 0; i < I.height(); i++) {
+            for (int j = 0; j < I.width(); j++) {
                 if (I.get(i, j)[0] == HOLE_VALUE) {
                     Point p = new Point(i, j);
                     hole.add(p);
@@ -80,8 +80,8 @@ public class HoleFiller {
     private HashSet<Point> getBoundaryNeighbors(Point u, Mat I) {
         HashSet<Point> boundary = new HashSet<>();
         for (Point n : N.getAllNeighbors(u)) {
-            if (I.get((int) n.y, (int) n.x)[0] != HOLE_VALUE) {
-                boundary.add(new Point((int) n.y, (int) n.x));
+            if (I.get((int) n.x, (int) n.y)[0] != HOLE_VALUE) {
+                boundary.add(new Point((int) n.x, (int) n.y));
             }
         }
         return boundary;

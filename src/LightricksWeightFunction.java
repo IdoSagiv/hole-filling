@@ -1,8 +1,7 @@
-import org.opencv.core.Mat;
 import org.opencv.core.Point;
 
-public class EuclideanDistance extends WeightFunction {
-    EuclideanDistance(double z, double eps) {
+public class LightricksWeightFunction extends WeightFunction {
+    LightricksWeightFunction(double z, double eps) {
         super(z, eps);
     }
 
