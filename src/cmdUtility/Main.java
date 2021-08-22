@@ -49,7 +49,7 @@ public class Main {
             Pattern p = Pattern.compile("(.*)\\.(.*)");
             Matcher m = p.matcher(args[0]);
             m.find();
-            String outPath = m.group(1) + "_fixed." + m.group(2);
+            String outPath = String.format("%s_fixed_z=%d_eps=%s_connectivity=%d.%s", m.group(1), (int)z, eps, connectivity, m.group(2));
 
             fillHole(img, mask, outPath, W, N);
 
