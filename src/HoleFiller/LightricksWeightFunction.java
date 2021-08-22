@@ -1,7 +1,7 @@
-import org.opencv.core.Point;
+package HoleFiller;
 
 public class LightricksWeightFunction extends WeightFunction {
-    LightricksWeightFunction(double z, double eps) {
+    public LightricksWeightFunction(double z, double eps) {
         super(z, eps);
     }
 

@@ -1,3 +1,5 @@
+package HoleFiller;
+
 import javafx.util.Pair;
 import org.opencv.core.*;
 
@@ -30,7 +32,7 @@ public class HoleFiller {
 
         for (Point u : hole) {
             double newVal = calcNewVal(u, image, boundary);
-            newImg.put((int) u.x, (int) u.y, newVal);
+            newImg.put(u.x, u.y, newVal);
         }
 
         return newImg;
@@ -47,7 +49,7 @@ public class HoleFiller {
         double eqDenominator = 0;
         for (Point v : B) {
             double currW = W.weight(u, v);
-            eqNumerator += (currW * I.get((int) v.x, (int) v.y)[0]);
+            eqNumerator += (currW * I.get(v.x, v.y)[0]);
             eqDenominator += currW;
         }
         return eqNumerator / eqDenominator;
@@ -80,10 +82,14 @@ public class HoleFiller {
     private HashSet<Point> getBoundaryNeighbors(Point u, Mat I) {
         HashSet<Point> boundary = new HashSet<>();
         for (Point n : N.getAllNeighbors(u)) {
-            if (I.get((int) n.x, (int) n.y)[0] != HOLE_VALUE) {
-                boundary.add(new Point((int) n.x, (int) n.y));
+            if (isPointInImage(n, I) && I.get(n.x, n.y)[0] != HOLE_VALUE) {
+                boundary.add(n);
             }
         }
         return boundary;
+    }
+
+    private boolean isPointInImage(Point p, Mat image) {
+        return (p.x >= 0) && (p.x < image.height()) && (p.y >= 0) && (p.y < image.width());
     }
 }
