@@ -4,7 +4,6 @@ import HoleFiller.*;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.w3c.dom.html.HTMLCollection;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,15 +101,5 @@ public class Main {
         img.convertTo(img, CvType.CV_32FC1, 1.f / 255); // values to [0-1] range
         Imgproc.threshold(mask, mask, 127, 255, THRESH_BINARY_INV); // set the mask to binary 0/255
         return img.setTo(new Scalar(-1), mask);
-    }
-
-    //  todo: delete - for debug
-    private static void printMat(Mat m) {
-        for (int i = 0; i < m.height(); i++) {
-            for (int j = 0; j < m.width(); j++) {
-                System.out.format("%.2f , ", m.get(i, j)[0]);
-            }
-            System.out.println();
-        }
     }
 }

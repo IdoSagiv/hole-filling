@@ -46,6 +46,8 @@ public class HoleFiller {
     }
 
     /**
+     * reduces a given set of pixels to a smaller set of size k
+     *
      * @param pixels original set of pixels
      * @param k      maximal number of new pixels
      * @return a set of min(k,|pixels|) pixels

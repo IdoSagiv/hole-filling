@@ -45,4 +45,4 @@ Alternatively, we can think about a smarter splitting in which the sets aren't n
 and each set contains pixels with similar values (in order to keep the runtime, this splitting needs to be computed in
 O(n) time complexity).
 
-** implementation to the first option can be found in the code
+** implementation to the first option can be found in the HoleFiller class
