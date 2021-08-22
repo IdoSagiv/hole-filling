@@ -12,26 +12,18 @@ public class HoleFiller {
 
     private static final double HOLE_VALUE = -1d;
 
-    private final WeightFunction W;
-    private final NeighborsFunction N;
-
-    public HoleFiller(WeightFunction W, NeighborsFunction N) {
-        this.W = W;
-        this.N = N;
-    }
-
     /***
      * get a grayscale image with a hole and return a new image where the hole is filled
      * @param image - grayscale image with float pixel values in the range [0, 1], and hole values which are marked with the value -1
      */
-    public Mat fillHole(Mat image) {
-        Pair<HashSet<Point>, HashSet<Point>> holeAndBoundary = findHoleAndBoundary(image);
+    public static Mat fillHole(Mat image, WeightFunction W, NeighborsFunction N) {
+        Pair<HashSet<Point>, HashSet<Point>> holeAndBoundary = findHoleAndBoundary(image, N);
         HashSet<Point> hole = holeAndBoundary.getKey();
         HashSet<Point> boundary = holeAndBoundary.getValue();
         Mat newImg = image.clone();
 
         for (Point u : hole) {
-            double newVal = calcNewVal(u, image, boundary);
+            double newVal = calcNewVal(u, image, boundary, W);
             newImg.put(u.x, u.y, newVal);
         }
 
@@ -44,7 +36,7 @@ public class HoleFiller {
      * @param B - set of all the boundary points in I
      * @return the new value of I(u)
      */
-    private double calcNewVal(Point u, Mat I, HashSet<Point> B) {
+    private static double calcNewVal(Point u, Mat I, HashSet<Point> B, WeightFunction W) {
         double eqNumerator = 0;
         double eqDenominator = 0;
         for (Point v : B) {
@@ -59,7 +51,7 @@ public class HoleFiller {
      * @param I - grayscale image with float pixel values in the range [0, 1], and hole values which are marked with the value -1
      * @return a pair of two sets (hole_points, boundary_points)
      */
-    private Pair<HashSet<Point>, HashSet<Point>> findHoleAndBoundary(Mat I) {
+    private static Pair<HashSet<Point>, HashSet<Point>> findHoleAndBoundary(Mat I, NeighborsFunction N) {
         HashSet<Point> hole = new HashSet<>();
         HashSet<Point> boundary = new HashSet<>();
         for (int i = 0; i < I.height(); i++) {
@@ -67,7 +59,7 @@ public class HoleFiller {
                 if (I.get(i, j)[0] == HOLE_VALUE) {
                     Point p = new Point(i, j);
                     hole.add(p);
-                    boundary.addAll(getBoundaryNeighbors(p, I));
+                    boundary.addAll(getBoundaryNeighbors(p, I, N));
                 }
             }
         }
@@ -79,7 +71,7 @@ public class HoleFiller {
      * @param I - grayscale image with float pixel values in the range [0, 1], and hole values which are marked with the value -1
      * @return a set with all the boundary points that are u neighbors
      */
-    private HashSet<Point> getBoundaryNeighbors(Point u, Mat I) {
+    private static HashSet<Point> getBoundaryNeighbors(Point u, Mat I, NeighborsFunction N) {
         HashSet<Point> boundary = new HashSet<>();
         for (Point n : N.getAllNeighbors(u)) {
             if (isPointInImage(n, I) && I.get(n.x, n.y)[0] != HOLE_VALUE) {
@@ -89,7 +81,7 @@ public class HoleFiller {
         return boundary;
     }
 
-    private boolean isPointInImage(Point p, Mat image) {
+    private static boolean isPointInImage(Point p, Mat image) {
         return (p.x >= 0) && (p.x < image.height()) && (p.y >= 0) && (p.y < image.width());
     }
 }

@@ -4,6 +4,7 @@ import HoleFiller.*;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.w3c.dom.html.HTMLCollection;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +42,10 @@ public class Main {
                 throw new InvalidConnectivityTypeException();
             }
 
-            WeightFunction W = new LightricksWeightFunction(z, eps);
+            WeightFunction W = (u, v) -> {
+                double subNorm = Math.sqrt(Math.pow(u.x - v.x, 2) + Math.pow(u.y - v.y, 2));
+                return 1 / (Math.pow(subNorm, z) + eps);
+            };
 
             Pattern p = Pattern.compile("(.*)\\.(.*)");
             Matcher m = p.matcher(args[0]);
@@ -77,14 +81,12 @@ public class Main {
      * @param N       neighbors function
      */
     private static void fillHole(Mat imgOrig, Mat mask, String outPath, WeightFunction W, NeighborsFunction N) {
-        HoleFiller filler = new HoleFiller(W, N);
-
         // create the corrupted image with the hole
         Mat corruptedImg = applyHoleMask(imgOrig, mask);
 
         //  fill the hole
-        Mat fixedImage = filler.fillHole(corruptedImg);
-//        Mat fixedImage = filler.approxFillHole(corruptedImg);
+        Mat fixedImage = HoleFiller.fillHole(corruptedImg, W, N);
+//        Mat fixedImage = HoleFiller.approxFillHole(corruptedImg, W, N);
 
         //Write the image
         fixedImage.convertTo(fixedImage, CvType.CV_32FC1, 255f); // values to [0-1] range
@@ -112,5 +114,4 @@ public class Main {
             System.out.println();
         }
     }
-
 }
