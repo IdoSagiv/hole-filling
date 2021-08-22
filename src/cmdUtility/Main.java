@@ -86,7 +86,6 @@ public class Main {
 
         //  fill the hole
         Mat fixedImage = HoleFiller.fillHole(corruptedImg, W, N);
-//        Mat fixedImage = HoleFiller.approxFillHole(corruptedImg, W, N);
 
         //Write the image
         fixedImage.convertTo(fixedImage, CvType.CV_32FC1, 255f); // values to [0-1] range
