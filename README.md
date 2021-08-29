@@ -5,7 +5,7 @@ An image processing library that fills holes in images.
 This program is written in Java and using the OpenCV library.<br/>
 
 ## Overview
-### Programs structure
+### Structure and Input
 The program consists of two main modules:
 * Hole Filling library
 * Command Line utility
@@ -15,7 +15,7 @@ The input for the program is:
 * z and epsilon values for the weight function
 * Connectivity type (4 or 8 connected)
 
-### Program flow
+### Work Process
 1. Convert the image to a grayscale image
 2. Normalize the pixels values to [0-1]
 3. Apply the mask by assigning -1 values to hole pixels
