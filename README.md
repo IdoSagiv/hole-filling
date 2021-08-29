@@ -11,7 +11,7 @@ The program consists of two main modules:
 * Command Line utility
 
 The input for the program is:
-* Path the original and hole-mask images
+* Path to the original and hole-mask images
 * z and epsilon values for the weight function
 * Connectivity type (4 or 8 connected)
 
