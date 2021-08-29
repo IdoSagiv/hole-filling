@@ -31,14 +31,14 @@ The input for the program is:
 ## Example
 Original image
 <p align="center">
-    <img src="images/Lenna.png" width="450">
-    <img src="images/Lenna_gray.png" width="450">
+    <img src="images/Lenna.png" width="400" height="400">
+    <img src="images/Lenna_gray.png" width="400" height="400">
 </p>
 
 Corrupted and Fixed images
 <p align="center">
-    <img src="images/mask3/Lenna_corrupted.png" width="450">
-    <img src="images/mask3/Lenna_fixed.png" width="450">
+    <img src="images/mask3/Lenna_corrupted.png" width="400" height="400">
+    <img src="images/mask3/Lenna_fixed.png" width="400" height="400">
 </p>
 
 * more examples could be found [here](https://github.com/IdoSagiv/hole-filling/tree/main/images)
