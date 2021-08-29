@@ -1,5 +1,5 @@
 # Hole Filling Library
-A library for filling a single hole in an image
+An image processing library that fills holes in images.
 
 ## Technologies And Tools
 This program is written in Java and using the OpenCV library.<br/>
