@@ -1,4 +1,4 @@
-# Images Holes Filling
+# Hole Filling Library
 A library for filling a single hole in an image
 
 ## Technologies And Tools
