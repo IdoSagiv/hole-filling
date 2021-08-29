@@ -27,10 +27,13 @@ public class Main {
             double eps = Double.parseDouble(args[3]);
             int connectivity = Integer.parseInt(args[4]);
 
+            Pattern p = Pattern.compile("(.*)\\.(.*)");
+            Matcher m = p.matcher(args[0]);
 
-            if (img.empty() || mask.empty()) {
+            if (img.empty() || mask.empty() || !m.find()) {
                 throw new InvalidImageException();
             }
+            String outPath = String.format("%s_fixed_z=%d_eps=%s_connectivity=%d.%s", m.group(1), (int) z, eps, connectivity, m.group(2));
 
             NeighborsFunction N;
             if (connectivity == 4) {
@@ -45,11 +48,6 @@ public class Main {
                 double subNorm = Math.sqrt(Math.pow(u.x - v.x, 2) + Math.pow(u.y - v.y, 2));
                 return 1 / (Math.pow(subNorm, z) + eps);
             };
-
-            Pattern p = Pattern.compile("(.*)\\.(.*)");
-            Matcher m = p.matcher(args[0]);
-            m.find();
-            String outPath = String.format("%s_fixed_z=%d_eps=%s_connectivity=%d.%s", m.group(1), (int)z, eps, connectivity, m.group(2));
 
             fillHole(img, mask, outPath, W, N);
 
@@ -67,7 +65,7 @@ public class Main {
             System.out.println("Invalid connectivity type\n" + CORRECT_USAGE_MSG);
             System.exit(1);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.exit(1);
         }
     }
