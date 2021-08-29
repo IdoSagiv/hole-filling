@@ -85,8 +85,7 @@ public class Main {
         Mat fixedImage = HoleFiller.fillHole(corruptedImg, W, N);
 
         //Write the image
-        fixedImage.convertTo(fixedImage, CvType.CV_32FC1, 255f); // values to [0-1] range
-
+        fixedImage.convertTo(fixedImage, CvType.CV_32FC1, 255f); // values to [0-255] range
         Imgcodecs.imwrite(outPath, fixedImage);
     }
 
@@ -96,8 +95,10 @@ public class Main {
      * @return new image with values in range [0,1] where the holes pixels are with value -1
      */
     private static Mat applyHoleMask(Mat img, Mat mask) {
-        img.convertTo(img, CvType.CV_32FC1, 1.f / 255); // values to [0-1] range
-        Imgproc.threshold(mask, mask, 127, 255, THRESH_BINARY_INV); // set the mask to binary 0/255
-        return img.setTo(new Scalar(-1), mask);
+        Mat corrupted = img.clone();
+        Mat maskCopy = mask.clone();
+        corrupted.convertTo(corrupted, CvType.CV_32FC1, 1.f / 255); // values to [0-1] range
+        Imgproc.threshold(maskCopy, maskCopy, 127, 255, THRESH_BINARY_INV); // set the mask to binary 0/255
+        return corrupted.setTo(new Scalar(-1), maskCopy);
     }
 }
