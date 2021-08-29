@@ -16,4 +16,9 @@ public class Point {
         Point it = (Point) obj;
         return x == it.x && y == it.y;
     }
+
+    @Override
+    public int hashCode() {
+        return String.format("%d,%d", x, y).hashCode();
+    }
 }
